@@ -7,50 +7,51 @@ import java.util.Locale;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author victor
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    private enum OperatorType {NONE, ADD, SUBTRACT, MULTIPLY, DIVIDE}
+    private enum OperatorType {
+        NONE, ADD, SUBTRACT, MULTIPLY, DIVIDE
+    }
 
     private double accumulator, operand;
     private OperatorType operator;
     private char decimalSeparator;
-    private boolean erase; 
-    
+    private boolean erase;
+
     public MainFrame() {
         initComponents();
         initMyFields();
     }
-    
-    public void initMyFields(){
-        accumulator =0;
+
+    public void initMyFields() {
+        accumulator = 0;
         operand = 0;
-        operator= OperatorType.NONE;
+        operator = OperatorType.NONE;
         erase = false;
         decimalSeparator = getDecimalSeparator();
     }
-    
-    private void eraseIfNeededAndWriteNumber(String numberStr){
-        if(erase){
-            erase=false;
+
+    private void eraseIfNeededAndWriteNumber(String numberStr) {
+        if (erase) {
+            erase = false;
             textFieldDisplay.setText("");
         }
-        
+
         textFieldDisplay.setText(textFieldDisplay.getText() + numberStr);
     }
-    
-    public char getDecimalSeparator(){
+
+    public char getDecimalSeparator() {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.getDefault());
         return dfs.getDecimalSeparator();
     }
-    
-    private void calculateResult(){
+
+    private void calculateResult() {
         operand = Double.parseDouble(textFieldDisplay.getText());
-        switch(operator){
+        switch (operator) {
             case ADD:
                 accumulator += operand;
                 break;
@@ -68,9 +69,18 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
         }
     }
-    
-    private void displayResult(){
-        textFieldDisplay.setText("" + accumulator);
+
+    private void displayResult() {
+        String s = "" + accumulator;
+        System.out.println(s);
+        if (s.contains(".")) {
+            s = s.replaceAll("0+s", "");
+            s = s.replaceAll("\\.s", "");
+        }
+
+        textFieldDisplay.setText(s);
+        //BigDecimal number = new BigDecimal(accumulator);
+        //textFieldDisplay.setText(number.stripTrailingZeros().toPlainString());
     }
 
     /**
@@ -321,11 +331,11 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2ActionPerformed
-       eraseIfNeededAndWriteNumber("2");
+        eraseIfNeededAndWriteNumber("2");
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn1ActionPerformed
-       eraseIfNeededAndWriteNumber("1");
+        eraseIfNeededAndWriteNumber("1");
     }//GEN-LAST:event_btn1ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
@@ -370,57 +380,60 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        
-        if(!erase){
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.ADD;
+
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.ADD;
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSubtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubtractActionPerformed
-        if(!erase){
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.SUBTRACT;
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.SUBTRACT;
         }
     }//GEN-LAST:event_btnSubtractActionPerformed
 
     private void btnMultiplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplyActionPerformed
-        if(!erase){
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.MULTIPLY;  
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.MULTIPLY;
         }
-        
+
     }//GEN-LAST:event_btnMultiplyActionPerformed
 
     private void btnDivideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDivideActionPerformed
-        if(!erase){
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.DIVIDE;
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.DIVIDE;
         }
-        
+
     }//GEN-LAST:event_btnDivideActionPerformed
 
     private void btnEqualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEqualActionPerformed
+       if(!erase){
         erase = true;
         calculateResult();
         displayResult();
+        operator = OperatorType.NONE;
+       }
     }//GEN-LAST:event_btnEqualActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         String s = textFieldDisplay.getText();
-        if(s.length() > 0){
-        String subS = s.substring(0, s.length() - 1);
-        textFieldDisplay.setText(subS); 
+        if (s.length() > 0) {
+            String subS = s.substring(0, s.length() - 1);
+            textFieldDisplay.setText(subS);
         }
-        
+
     }//GEN-LAST:event_btnBackActionPerformed
 
     /**
@@ -437,16 +450,24 @@ public class MainFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
