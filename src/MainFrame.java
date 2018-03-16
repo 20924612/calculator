@@ -52,6 +52,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void calculateResult() {
         String s = textFieldDisplay.getText();
         s = s.replaceAll("" + decimalSeparator, ".");
+        if(s.isEmpty()){
+            s = "0";
+        }
         operand = Double.parseDouble(textFieldDisplay.getText());
         switch (operator) {
             case ADD:
